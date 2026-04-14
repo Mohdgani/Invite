@@ -183,6 +183,38 @@ const Hero = () => {
   );
 };
 
+const WaxSeal = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
+      whileInView={{ opacity: 1, scale: 1, rotate: -5 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1.2, delay: 0.5, type: "spring", stiffness: 60 }}
+      className="relative w-48 h-48 mx-auto my-16 flex items-center justify-center group"
+    >
+      {/* Subtle shadow underneath for physical presence */}
+      <div className="absolute w-40 h-12 bg-black/40 blur-3xl rounded-full translate-y-20 scale-x-125" />
+
+      {/* The Wax Seal Image with "Melted" effects */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center">
+        <img 
+          src="https://storage.googleapis.com/tag-user-content/ais-dev-ma252yq3kxsvbe2iqvge65-594155050540/wax-seal-mj.png" 
+          alt="M & J Wax Seal" 
+          className="w-full h-full object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]"
+          referrerPolicy="no-referrer"
+        />
+        
+        {/* Extra "melted" overlays to blend it into the ivory page */}
+        <div className="absolute inset-0 pointer-events-none mix-blend-multiply opacity-20 bg-gradient-to-br from-transparent via-black/10 to-transparent rounded-full" />
+      </div>
+
+      {/* Realistic Wax Drips (Visual only, to enhance the image) */}
+      <div className="absolute -bottom-8 left-1/2 -translate-x-12 w-5 h-10 bg-[#8b4513]/20 rounded-full blur-[2px]" style={{ borderRadius: '40% 60% 50% 50% / 20% 20% 80% 80%' }} />
+      <div className="absolute -bottom-6 left-1/2 translate-x-6 w-4 h-6 bg-[#8b4513]/15 rounded-full blur-[2px]" style={{ borderRadius: '50% 50% 50% 50% / 30% 30% 70% 70%' }} />
+    </motion.div>
+  );
+};
+
 const Bismillah = () => (
   <section className="py-24 bg-ivory islamic-pattern text-center px-4 border-b border-gold/10">
     <motion.div
@@ -199,6 +231,9 @@ const Bismillah = () => (
       </div>
       <h2 className="font-arabic text-5xl md:text-7xl text-emerald-950 mb-6 drop-shadow-sm">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h2>
       <p className="font-serif italic text-emerald-950/70 text-xl md:text-2xl">In the name of Allah, the Most Gracious, the Most Merciful</p>
+      
+      <WaxSeal />
+
       <div className="mt-10 opacity-40 flex justify-center gap-4">
         <Star className="w-3 h-3 text-gold fill-gold" />
         <Star className="w-3 h-3 text-gold fill-gold" />
