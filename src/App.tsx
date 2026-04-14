@@ -184,15 +184,26 @@ const Hero = () => {
 };
 
 const Bismillah = () => (
-  <section className="py-20 bg-ivory islamic-pattern text-center px-4">
+  <section className="py-24 bg-ivory islamic-pattern text-center px-4 border-b border-gold/10">
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
+      className="max-w-4xl mx-auto"
     >
-      <h2 className="font-arabic text-4xl md:text-6xl text-emerald-950 mb-4">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h2>
-      <p className="font-serif italic text-emerald-950/70 text-lg">In the name of Allah, the Most Gracious, the Most Merciful</p>
+      <div className="mb-8 opacity-40 flex justify-center gap-4">
+        <Star className="w-3 h-3 text-gold fill-gold" />
+        <Star className="w-3 h-3 text-gold fill-gold" />
+        <Star className="w-3 h-3 text-gold fill-gold" />
+      </div>
+      <h2 className="font-arabic text-5xl md:text-7xl text-emerald-950 mb-6 drop-shadow-sm">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h2>
+      <p className="font-serif italic text-emerald-950/70 text-xl md:text-2xl">In the name of Allah, the Most Gracious, the Most Merciful</p>
+      <div className="mt-10 opacity-40 flex justify-center gap-4">
+        <Star className="w-3 h-3 text-gold fill-gold" />
+        <Star className="w-3 h-3 text-gold fill-gold" />
+        <Star className="w-3 h-3 text-gold fill-gold" />
+      </div>
     </motion.div>
   </section>
 );
@@ -427,8 +438,8 @@ export default function App() {
     <main className="min-h-screen bg-ivory selection:bg-gold/30 selection:text-emerald-950 relative">
       <SwingingLanterns />
       <FallingElements />
-      <Hero />
       <Bismillah />
+      <Hero />
       <Events />
       <Venue />
       <SectionDivider />
