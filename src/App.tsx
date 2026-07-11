@@ -222,7 +222,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 1.5 }}
           className="font-sans text-gold-light/80 text-lg md:text-xl max-w-2xl mx-auto italic"
         >
-          “With the blessings of Allah, we invite you to celebrate our Nikah”
+          “We heartily invite you to celebrate our Nikah”
         </motion.p>
 
         <motion.div
@@ -284,7 +284,7 @@ const Bismillah = () => (
         بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
       </h2>
       <p className="font-serif italic text-emerald-950/70 text-xl md:text-2xl">
-        In the name of Allah, the Most Gracious, the Most Merciful
+        In the name of GOD, the Most Gracious, the Most Merciful
       </p>
       <div className="mt-10 opacity-40 flex justify-center gap-4">
         <Star className="w-3 h-3 text-gold fill-gold" />
@@ -302,7 +302,7 @@ const Events = () => {
       date: "Sun 26th July 2026",
       time: "11:30 AM onwards",
       location: "Tamil Nadu Haj Service Society Chennai",
-      description: "The sacred union under the grace of Allah.",
+      description: "The sacred union under the grace of GOD.",
     },
   ];
 
@@ -534,7 +534,7 @@ const Duas = () => (
         </p>
 
         <p className="font-sans text-emerald-950/60 uppercase tracking-widest text-sm">
-          May Allah bless you and shower His blessings upon you and unite you
+          May GOD bless you and shower His blessings upon you and unite you
           both in goodness.
         </p>
       </motion.div>
