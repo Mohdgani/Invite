@@ -3,28 +3,28 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "M & J Digital Invite",
+  title: "Digital Invite",
   description: "We heartily invite you to celebrate our Nikkah",
   openGraph: {
-    title: "M & J Digital Invite",
+    title: "Digital Invite",
     description: "Join us in celebrating the blessed union of Mohamed & Jafrin",
-    url: "https://mohdgani.github.io/Invite", // 👈 your live URL
+    url: "https://mohdgani.github.io/Invite",
     siteName: "Dream Pages",
     images: [
       {
-        url: "https://mohdgani.github.io/Invite/preview.png", // 👈 add a preview image
+        url: "https://mohdgani.github.io/Invite/image.webp", // ✅ absolute path
         width: 1200,
         height: 630,
-        alt: "M & J Wedding Invite",
+        alt: "Wedding Invite",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "M & J Digital Invite",
-    description: "Join us in celebrating the blessed union of Mohamed & Jafrin",
-    images: ["https://mohdgani.github.io/Invite/preview.png"],
+    title: "Digital Invite",
+    description: "Join us in celebrating the blessed union of wedding",
+    images: ["https://mohdgani.github.io/Invite/image.webp"], // ✅ absolute path
   },
 };
 
