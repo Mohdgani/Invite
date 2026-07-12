@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     siteName: "Dream Pages",
     images: [
       {
-        url: "image.webp", // ✅ absolute path
+        url: "/image.webp", // ✅ absolute path
         width: 1200,
         height: 630,
         alt: "Wedding Invite",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Digital Invite",
     description: "Join us in celebrating the blessed union of wedding",
-    images: ["image.webp"], // ✅ absolute path
+    images: ["/image.webp"], // ✅ absolute path
   },
 };
 
