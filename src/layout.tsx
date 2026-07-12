@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   description: "We heartily invite you to celebrate our Nikkah",
   openGraph: {
     title: "Digital Invite",
-    description: "Join us in celebrating the blessed union of Mohamed & Jafrin",
+    description: "Join us in celebrating the blessed union of wedding",
     url: "https://mohdgani.github.io/Invite",
     siteName: "Dream Pages",
     images: [
       {
-        url: "https://mohdgani.github.io/Invite/image.webp", // ✅ absolute path
+        url: "image.webp", // ✅ absolute path
         width: 1200,
         height: 630,
         alt: "Wedding Invite",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Digital Invite",
     description: "Join us in celebrating the blessed union of wedding",
-    images: ["https://mohdgani.github.io/Invite/image.webp"], // ✅ absolute path
+    images: ["image.webp"], // ✅ absolute path
   },
 };
 
