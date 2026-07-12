@@ -9,9 +9,7 @@
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", serif;
   --font-arabic: "Amiri", serif;
-  --font-display: "Cinzel", serif;
-  --font-couple: "Great Vibes", serif;
-
+  --font-display: "Great Vibes", serif;
   --color-emerald-950: #022c22;
   --color-gold: #d4af37;
   --color-gold-light: #f1e5ac;
@@ -246,7 +244,7 @@
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: oklch(0.922 0 0 / 10%);
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -298,14 +296,7 @@
   body {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
-    /* Disable scroll snapping on mobile to avoid touch-end "jerk" */
     scroll-snap-type: y mandatory;
   }
-
-  @media (max-width: 640px) {
-    html,
-    body {
-      scroll-snap-type: none;
-    }
-  }
 }
+
