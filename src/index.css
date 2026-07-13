@@ -306,6 +306,11 @@
     html,
     body {
       scroll-snap-type: none;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;
     }
+  }
+  .example::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
   }
 }
