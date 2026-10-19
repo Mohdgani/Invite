@@ -1,20 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import {
-  Calendar,
-  MapPin,
-  Heart,
-  MessageSquare,
-  Users,
-  Send,
-  Moon,
-  Star,
-  Flower,
-} from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { motion } from "motion/react";
+import { Calendar, MapPin, Heart, Moon, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import CanvasParticles from "./CanvasParticles";
 
@@ -86,12 +75,12 @@ const Hero = () => {
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="font-couple text-5xl md:text-7xl lg:text-7xl mb-8 gold-gradient-text drop-shadow-2xl leading-tight"
         >
-          Mohamed Gani <br />
+          Mohamed Fazil <br />
           <span className="text-3xl md:text-5xl lg:text-6xl font-display italic">
             &
           </span>{" "}
           <br />
-          Jafrin Samitha
+          Seyed Faleeha Teezan
         </motion.h1>
 
         <motion.p
@@ -180,9 +169,9 @@ const Events = () => {
   const events = [
     {
       title: "Nikkah Ceremony",
-      date: "Sun 26th July 2026",
+      date: "Sun 20th December 2026",
       time: "11:30 AM onwards",
-      location: "Tamil Nadu Haj Service Society Chennai",
+      location: "Bride's Residence, Kilakarai, Ramanathapuram Dist, Tamil Nadu",
       description: "The sacred union under the grace of GOD.",
     },
   ];
@@ -281,7 +270,7 @@ const Venue = () => (
           <Button
             className="bg-gold hover:bg-gold/90 text-emerald-950 font-display px-8 py-6 text-lg rounded-full shadow-xl transition-all hover:scale-105"
             onClick={() =>
-              window.open("https://maps.app.goo.gl/xfEt8MSRovFAzVjk7", "_blank")
+              window.open("https://maps.app.goo.gl/uMWTWFfjFGML4yw8A", "_blank")
             }
           >
             <MapPin className="mr-2 h-5 w-5" /> View Location
@@ -294,44 +283,119 @@ const Venue = () => (
 
 const RSVP = () => {
   const [submitted, setSubmitted] = useState(
-    !!sessionStorage.getItem("rsvp_submitted"),
+    () => sessionStorage.getItem("rsvp_submitted") === "true",
   );
   const [loading, setLoading] = useState(false);
 
+  const normalizeName = (value: string) =>
+    value.trim().replace(/\s+/g, " ").toLowerCase();
+
+  // Lightweight deterministic hash for fingerprint storage (not identity)
+  const hashString = (str: string) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash * 31 + str.charCodeAt(i)) | 0;
+    }
+    return Math.abs(hash).toString(16);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+
+    const nameRaw =
+      (document.getElementById("name") as HTMLInputElement)?.value ?? "";
+    const guestsRaw =
+      (document.getElementById("guests") as HTMLInputElement)?.value ?? "";
+
+    const name = nameRaw.trim();
+    const guests = Number(guestsRaw);
+
+    if (!name) {
+      alert("Please enter your name.");
+      return;
+    }
+    if (!Number.isFinite(guests) || guests < 1) {
+      alert("Please enter valid number of guests.");
+      return;
+    }
+
     setLoading(true);
 
-    // 👇 Collect browser fingerprint
+    // Collect fingerprint (metadata only)
     const fingerprint = {
       screen: `${window.screen.width}x${window.screen.height}`,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      ua: navigator.userAgent,
+      lang: navigator.language,
     };
 
-    // 👇 Merge fingerprint into formData
-    const formData = {
-      name: (document.getElementById("name") as HTMLInputElement).value,
-      guests: (document.getElementById("guests") as HTMLInputElement).value,
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      language: navigator.language,
-      ...fingerprint,
-    };
+    const fingerprintHash = hashString(JSON.stringify(fingerprint));
 
-    await fetch("https://sheetdb.io/api/v1/2efldqzjq4jb4", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: [formData] }),
-    });
+    try {
+      // UX lock (same browser/device)
+      if (sessionStorage.getItem("rsvp_submitted") === "true") {
+        alert("You have already submitted your RSVP.");
+        setLoading(false);
+        return;
+      }
 
-    sessionStorage.setItem("rsvp_submitted", "true");
-    setSubmitted(true);
-    setLoading(false);
+      // Server-side duplicate check using SheetDB search by `name`.
+      // Since you said there is no unique field, we use normalized name.
+      const normalized = normalizeName(name);
+
+      // Use exact value likely stored in SheetDB. If SheetDB stores raw name,
+      // then search by raw name is safer. We'll search by raw and normalized.
+      const checkCandidates = Array.from(new Set([name, normalized]));
+
+      let alreadySubmitted = false;
+      for (const candidate of checkCandidates) {
+        const checkRes = await fetch(
+          `https://sheetdb.io/api/v1/2efldqzjq4jb4/search?name=${encodeURIComponent(candidate)}`,
+        );
+        const existing = await checkRes.json();
+        if (Array.isArray(existing) && existing.length > 0) {
+          alreadySubmitted = true;
+          break;
+        }
+      }
+
+      if (alreadySubmitted) {
+        alert("You have already submitted your RSVP.");
+        setLoading(false);
+        return;
+      }
+
+      const payload = {
+        name: name, // keep raw for display
+        guests: guests,
+        timestamp: new Date().toISOString(),
+        userAgent: fingerprint.ua,
+        language: fingerprint.lang,
+        screen: fingerprint.screen,
+        timezone: fingerprint.timezone,
+        fingerprintHash,
+      };
+
+      // Post new RSVP
+      await fetch("https://sheetdb.io/api/v1/2efldqzjq4jb4", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: [payload] }),
+      });
+
+      sessionStorage.setItem("rsvp_submitted", "true");
+      setSubmitted(true);
+    } catch (err) {
+      console.error("RSVP error:", err);
+      alert("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section className="py-24 bg-emerald-950 text-white px-4 relative overflow-hidden">
-      {/* ... your decorative divs ... */}
       <div className="max-w-2xl mx-auto relative z-10">
         {submitted ? (
           <motion.div
@@ -370,7 +434,7 @@ const RSVP = () => {
               <Input
                 id="guests"
                 type="number"
-                min="1"
+                min={1}
                 required
                 className="..."
                 placeholder="How many are coming?"
@@ -425,7 +489,7 @@ const Footer = () => (
       viewport={{ once: true }}
     >
       <h2 className="font-display text-gold text-2xl mb-6 tracking-widest">
-        M & J
+        F & F
       </h2>
       <p className="font-serif italic text-gold-light/70 text-lg mb-8 max-w-md mx-auto">
         “We look forward to celebrating this blessed union with you”
