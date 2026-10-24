@@ -1,287 +1,218 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Calendar, MapPin, Heart, Moon, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import CanvasParticles from "./CanvasParticles";
+import {
+  ArrowDown,
+  CalendarDays,
+  Clock3,
+  Flower2,
+  Heart,
+  MapPin,
+  Moon,
+  Send,
+  Star,
+} from "lucide-react";
 
-// --- Components ---
-
-const SwingingLanterns = () => {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-50 flex justify-around px-10 overflow-hidden">
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="flex flex-col items-center origin-top"
-          initial={{ rotate: -5 }}
-          animate={{ rotate: 5 }}
-          transition={{
-            duration: 1.8 + i * 0.2,
-            repeat: Infinity,
-            repeatType: "mirror",
-            ease: "easeInOut",
-            delay: Math.random() * 1.5,
-          }}
-          style={{
-            height: 100 + (i % 3) * 40,
-            marginLeft: i === 0 ? 0 : -20,
-          }}
-        >
-          <div className="w-[1px] h-full bg-gold/40" />
-          <div className="relative">
-            <div className="absolute inset-0 bg-gold/20 blur-md rounded-full" />
-            <Moon className="text-gold w-8 h-8 fill-gold drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
+const event = {
+  date: "Sunday, 20th December 2026",
+  time: "11:30 AM onwards",
+  location: "Bride's Residence, Kilakarai, Ramanathapuram Dist, Tamil Nadu",
+  mapUrl: "https://maps.app.goo.gl/uMWTWFfjFGML4yw8A",
 };
 
-const SectionDivider = () => (
-  <div className="flex items-center justify-center my-12 opacity-50">
-    <div className="h-[1px] w-24 bg-gradient-to-r from-transparent to-gold" />
-    <Star className="mx-4 text-gold w-4 h-4 fill-gold" />
-    <div className="h-[1px] w-24 bg-gradient-to-l from-transparent to-gold" />
-  </div>
-);
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
+};
 
-const Hero = () => {
+function PaperDivider() {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-emerald-950">
-      <motion.div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/islamic/1920/1080?blur=10')] bg-cover bg-center opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/80 via-transparent to-emerald-950" />
-      </motion.div>
+    <div className="paper-divider" aria-hidden="true">
+      <span />
+      <Heart size={16} fill="currentColor" />
+      <span />
+    </div>
+  );
+}
 
-      <div className="relative z-10 text-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="mb-6"
-        >
-          <span className="font-display text-gold tracking-[0.3em] text-sm uppercase">
-            The Wedding of
-          </span>
-        </motion.div>
+function InvitationHero() {
+  return (
+    <section className="invitation-hero" aria-labelledby="invitation-title">
+      <div className="paper-sheet">
+        <Flower2
+          className="paper-flower paper-flower-left"
+          aria-hidden="true"
+        />
+        <Flower2
+          className="paper-flower paper-flower-right"
+          aria-hidden="true"
+        />
 
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="font-couple text-5xl md:text-7xl lg:text-7xl mb-8 gold-gradient-text drop-shadow-2xl leading-tight"
-        >
-          Mohamed Fazil <br />
-          <span className="text-3xl md:text-5xl lg:text-6xl font-display italic">
-            &
-          </span>{" "}
-          <br />
-          Seyed Faleeha Teezan
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="font-sans text-gold-light/80 text-lg md:text-xl max-w-2xl mx-auto italic"
-        >
-          “We heartily invite you to celebrate our Nikkah”
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
-          className="mt-12"
-        >
-          <div className="animate-bounce text-gold/50">
-            <div className="w-[1px] h-12 bg-gold mx-auto" />
+        <div className="paper-topline">
+          <div className="monogram" aria-label="Fazil and Faleeha">
+            <span>F</span>
+            <Heart size={14} fill="currentColor" aria-hidden="true" />
+            <span>F</span>
           </div>
+          <div className="date-stamp" aria-label="20 December 2026">
+            <span>DEC</span>
+            <strong>20</strong>
+            <span>2026</span>
+          </div>
+        </div>
+
+        <motion.div
+          className="hero-copy"
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <p className="eyebrow">With joyful hearts and grateful prayers</p>
+          <h1 id="invitation-title">
+            You are cordially invited
+            <span>to celebrate the wedding of</span>
+          </h1>
+          <p className="couple-names">
+            Mohamed Fazil <span>&amp;</span> Seyed Faleeha Teezan
+          </p>
+          <PaperDivider />
+          <p className="hero-date">{event.date}</p>
+          <p className="hero-note">Join us as we begin our blessed Nikkah</p>
+          <a className="text-link" href="#details">
+            Read our invitation <ArrowDown size={16} aria-hidden="true" />
+          </a>
         </motion.div>
       </div>
     </section>
   );
-};
+}
 
-const Bismillah = () => (
-  <section className="relative h-[95vh]  md:h-screen flex items-center justify-center overflow-hidden bg-ivory islamic-pattern text-center px-4 border-b border-gold/10">
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
-      className="max-w-4xl mx-auto"
-    >
-      <h2 className="font-arabic text-5xl md:text-7xl text-emerald-950 mb-6 drop-shadow-sm">
-        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
-      </h2>
-      <p className="font-serif italic text-emerald-950/70 text-xl md:text-2xl">
-        In the name of GOD, the Most Gracious, the Most Merciful
-      </p>
-      <div className="mt-10 opacity-80 flex justify-center gap-4">
-        <Star className="w-3 h-3 text-gold fill-gold drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]" />
-        <Star className="w-3 h-3 text-gold fill-gold drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]" />
-        <Star className="w-3 h-3 text-gold fill-gold drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]" />
-      </div>
+function InvitationStory() {
+  return (
+    <section id="story" className="story-section paper-section">
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute mb-8 bottom-6 absolute bottom-6 left-1/2 -translate-x-1/2"
+        className="section-inner story-inner"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeUp}
+        transition={{ duration: 0.7 }}
       >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="text-black"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 mx-auto"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 3l7 7 7-7"
-            />
-
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l7 7 7-7"
-            />
-          </svg>
-        </motion.div>
+        <p className="arabic-script" lang="ar" dir="rtl">
+          بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+        </p>
+        <p className="translation">
+          In the name of Allah, the Most Gracious, the Most Merciful
+        </p>
+        <PaperDivider />
+        <p className="story-kicker">A little note from our hearts</p>
+        <h2>
+          Two paths, brought together by grace, now begin one beautiful journey.
+        </h2>
+        <p className="story-copy">
+          With the blessings of our families, we would be honoured to have you
+          with us as we begin this beautiful new chapter together.
+        </p>
       </motion.div>
-    </motion.div>
-  </section>
-);
+    </section>
+  );
+}
 
-const Events = () => {
-  const events = [
-    {
-      title: "Nikkah Ceremony",
-      date: "Sun 20th December 2026",
-      time: "11:30 AM onwards",
-      location: "Bride's Residence, Kilakarai, Ramanathapuram Dist, Tamil Nadu",
-      description: "The sacred union under the grace of GOD.",
-    },
+function EventDetails() {
+  return (
+    <section id="details" className="details-section">
+      <motion.div
+        className="section-inner"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeUp}
+        transition={{ duration: 0.7 }}
+      >
+        <div className="section-heading">
+          <p className="eyebrow">Please save the date</p>
+          <h2>The Nikkah</h2>
+          <PaperDivider />
+        </div>
+
+        <div className="event-card">
+          <div className="event-card-flower" aria-hidden="true">
+            <Flower2 size={86} strokeWidth={0.8} />
+          </div>
+          <div className="event-date-block">
+            <span>OCTOBER</span>
+            <strong>25</strong>
+            <span>2026</span>
+          </div>
+          <div className="event-copy">
+            <p className="event-label">A day made more special with you</p>
+            <h3>Nikkah Ceremony</h3>
+            <div className="event-fact">
+              <CalendarDays size={18} aria-hidden="true" />
+              <span>{event.date}</span>
+            </div>
+            <div className="event-fact">
+              <Clock3 size={18} aria-hidden="true" />
+              <span>{event.time}</span>
+            </div>
+            <div className="event-fact">
+              <MapPin size={18} aria-hidden="true" />
+              <span>{event.location}</span>
+            </div>
+            <a
+              className="outline-link"
+              href={event.mapUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <MapPin size={16} aria-hidden="true" />
+              View location
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+function Blessings() {
+  const duas = [
+    "O Allah, surround our marriage with mercy and blessing. Give us a home of peace, tenderness, and goodness.",
+    "O Allah, let us grow together in faith and love. Bless every season of our life and make our later years gentle and joyful.",
+    "O Allah, keep our affection sincere and our compassion strong. Fill the years we share with lasting love and Your blessings.",
   ];
 
   return (
-    <section className="py-24 bg-emerald-950 text-white px-4 relative">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="font-display text-gold text-3xl mb-2">
-            Wedding Events
-          </h2>
-          <div className="h-[1px] w-20 bg-gold mx-auto" />
-        </motion.div>
-
-        <div className="space-y-12">
-          {events.map((event, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+    <section className="blessings-section paper-section">
+      <div className="section-inner">
+        <div className="section-heading">
+          <p className="eyebrow">A prayer for our new beginning</p>
+          <h2>With love &amp; duas</h2>
+          <PaperDivider />
+        </div>
+        <div className="dua-grid">
+          {duas.map((dua, index) => (
+            <motion.blockquote
+              className="dua-card"
+              key={dua}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeUp}
+              transition={{ duration: 0.6, delay: index * 0.12 }}
             >
-              <Card className="bg-emerald-900/60 border-gold/30 royal-border overflow-hidden">
-                <CardContent className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
-                  <div className="flex-shrink-0 w-24 h-24 rounded-full border border-gold/50 flex items-center justify-center bg-emerald-950">
-                    <Calendar className="text-gold w-10 h-10" />
-                  </div>
-                  <div className="text-center md:text-left flex-grow">
-                    <h3 className="font-serif text-3xl text-gold mb-2 drop-shadow-md">
-                      {event.title}
-                    </h3>
-                    <p className="text-black font-sans mb-10 drop-shadow-sm">
-                      {event.description}
-                    </p>
-                    <div className="grid grid-cols-1  md:grid-cols-1 gap-3 text-base text-ivory/95 drop-shadow-sm">
-                      <div className="flex items-center justify-center text-black md:justify-start gap-2">
-                        <Calendar className="w-4 h-4 text-gold" />
-                        <span>{event.date}</span>
-                      </div>
-                      <div className="flex items-center text-black justify-center md:justify-start gap-2">
-                        <Moon className="w-4 h-4 text-gold" />
-                        <span>{event.time}</span>
-                      </div>
-                      <div className="flex items-center justify-center text-black md:justify-start gap-2 ">
-                        <MapPin className="w-4 h-4 text-gold" />
-                        <span>{event.location}</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+              <Moon size={18} aria-hidden="true" />
+              <p>“{dua}”</p>
+            </motion.blockquote>
           ))}
         </div>
+        <p className="ameen">Ameen</p>
       </div>
     </section>
   );
-};
+}
 
-const Venue = () => (
-  <section className="py-24 bg-ivory px-4">
-    <div className="max-w-6xl mx-auto text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mb-12"
-      >
-        <h2 className="font-display text-emerald-950 text-3xl mb-2">
-          The Venue
-        </h2>
-        <p className="font-serif italic text-emerald-950/60">
-          Join us at this beautiful location
-        </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-gold/20 aspect-video md:aspect-[21/9]"
-      >
-        <img
-          src="https://picsum.photos/seed/palace/1200/600"
-          alt="Venue"
-          className="w-full h-full object-cover"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-emerald-950/20 flex items-center justify-center">
-          <Button
-            className="bg-gold hover:bg-gold/90 text-emerald-950 font-display px-8 py-6 text-lg rounded-full shadow-xl transition-all hover:scale-105"
-            onClick={() =>
-              window.open("https://maps.app.goo.gl/uMWTWFfjFGML4yw8A", "_blank")
-            }
-          >
-            <MapPin className="mr-2 h-5 w-5" /> View Location
-          </Button>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-);
-
-const RSVP = () => {
+function RSVP() {
   const [submitted, setSubmitted] = useState(
     () => sessionStorage.getItem("rsvp_submitted") === "true",
   );
@@ -290,70 +221,51 @@ const RSVP = () => {
   const normalizeName = (value: string) =>
     value.trim().replace(/\s+/g, " ").toLowerCase();
 
-  // Lightweight deterministic hash for fingerprint storage (not identity)
-  const hashString = (str: string) => {
+  const hashString = (value: string) => {
     let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = (hash * 31 + str.charCodeAt(i)) | 0;
+    for (let index = 0; index < value.length; index++) {
+      hash = (hash * 31 + value.charCodeAt(index)) | 0;
     }
     return Math.abs(hash).toString(16);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (loading) return;
 
-    const nameRaw =
-      (document.getElementById("name") as HTMLInputElement)?.value ?? "";
-    const guestsRaw =
-      (document.getElementById("guests") as HTMLInputElement)?.value ?? "";
-
-    const name = nameRaw.trim();
-    const guests = Number(guestsRaw);
+    const formData = new FormData(e.currentTarget);
+    const name = String(formData.get("name") ?? "").trim();
+    const guests = Number(formData.get("guests"));
 
     if (!name) {
       alert("Please enter your name.");
       return;
     }
     if (!Number.isFinite(guests) || guests < 1) {
-      alert("Please enter valid number of guests.");
+      alert("Please enter a valid number of guests.");
       return;
     }
 
     setLoading(true);
-
-    // Collect fingerprint (metadata only)
-    const fingerprint = {
-      screen: `${window.screen.width}x${window.screen.height}`,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      ua: navigator.userAgent,
-      lang: navigator.language,
-    };
-
-    const fingerprintHash = hashString(JSON.stringify(fingerprint));
-
     try {
-      // UX lock (same browser/device)
       if (sessionStorage.getItem("rsvp_submitted") === "true") {
         alert("You have already submitted your RSVP.");
-        setLoading(false);
+        setSubmitted(true);
         return;
       }
 
-      // Server-side duplicate check using SheetDB search by `name`.
-      // Since you said there is no unique field, we use normalized name.
       const normalized = normalizeName(name);
-
-      // Use exact value likely stored in SheetDB. If SheetDB stores raw name,
-      // then search by raw name is safer. We'll search by raw and normalized.
       const checkCandidates = Array.from(new Set([name, normalized]));
-
       let alreadySubmitted = false;
+
       for (const candidate of checkCandidates) {
         const checkRes = await fetch(
           `https://sheetdb.io/api/v1/2efldqzjq4jb4/search?name=${encodeURIComponent(candidate)}`,
         );
-        const existing = await checkRes.json();
+        if (!checkRes.ok) {
+          throw new Error(`RSVP lookup failed with status ${checkRes.status}`);
+        }
+        const existing: unknown = await checkRes.json();
         if (Array.isArray(existing) && existing.length > 0) {
           alreadySubmitted = true;
           break;
@@ -362,32 +274,43 @@ const RSVP = () => {
 
       if (alreadySubmitted) {
         alert("You have already submitted your RSVP.");
-        setLoading(false);
         return;
       }
 
-      const payload = {
-        name: name, // keep raw for display
-        guests: guests,
-        timestamp: new Date().toISOString(),
-        userAgent: fingerprint.ua,
-        language: fingerprint.lang,
-        screen: fingerprint.screen,
-        timezone: fingerprint.timezone,
-        fingerprintHash,
+      const fingerprint = {
+        screen: `${window.screen.width}x${window.screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        ua: navigator.userAgent,
+        lang: navigator.language,
       };
-
-      // Post new RSVP
-      await fetch("https://sheetdb.io/api/v1/2efldqzjq4jb4", {
+      const response = await fetch("https://sheetdb.io/api/v1/2efldqzjq4jb4", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: [payload] }),
+        body: JSON.stringify({
+          data: [
+            {
+              name,
+              guests,
+              timestamp: new Date().toISOString(),
+              userAgent: fingerprint.ua,
+              language: fingerprint.lang,
+              screen: fingerprint.screen,
+              timezone: fingerprint.timezone,
+              fingerprintHash: hashString(JSON.stringify(fingerprint)),
+            },
+          ],
+        }),
       });
+      if (!response.ok) {
+        throw new Error(
+          `RSVP submission failed with status ${response.status}`,
+        );
+      }
 
       sessionStorage.setItem("rsvp_submitted", "true");
       setSubmitted(true);
-    } catch (err) {
-      console.error("RSVP error:", err);
+    } catch (error) {
+      console.error("RSVP error:", error);
       alert("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
@@ -395,159 +318,82 @@ const RSVP = () => {
   };
 
   return (
-    <section className="py-24 bg-emerald-950 text-white px-4 relative overflow-hidden">
-      <div className="max-w-2xl mx-auto relative z-10">
+    <section id="rsvp" className="rsvp-section">
+      <motion.div
+        className="rsvp-card"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeUp}
+        transition={{ duration: 0.7 }}
+      >
         {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-emerald-900/50 p-12 rounded-3xl border border-gold/30 text-center"
-          >
-            <h3 className="font-serif text-3xl text-gold mb-4">Thank‑You!</h3>
-            <p className="text-ivory/80">
-              Thank you for your response. We look forward to seeing you!
+          <div className="rsvp-success" role="status">
+            <Heart size={30} fill="currentColor" aria-hidden="true" />
+            <h2>Thank you</h2>
+            <p>
+              Thank you for your response. We look forward to celebrating with
+              you!
             </p>
-          </motion.div>
+          </div>
         ) : (
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6 bg-ivory/5 p-8 md:p-12 rounded-3xl border border-gold/20 backdrop-blur-sm"
-          >
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-gold-light">
-                Full Name
-              </Label>
-              <Input
+          <>
+            <p className="eyebrow">Kindly reply</p>
+            <h2>Will you join us?</h2>
+            <p className="rsvp-intro">
+              We would love to celebrate this blessed day with you.
+            </p>
+            <form className="rsvp-form" onSubmit={handleSubmit}>
+              <label htmlFor="name">Your name</label>
+              <input
                 id="name"
-                required
-                className="..."
+                name="name"
+                autoComplete="name"
                 placeholder="Enter your name"
+                required
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="guests" className="text-gold-light">
-                Number of Guests
-              </Label>
-              <Input
+              <label htmlFor="guests">Number of guests</label>
+              <input
                 id="guests"
+                name="guests"
                 type="number"
                 min={1}
+                step={1}
+                placeholder="How many are attending?"
                 required
-                className="..."
-                placeholder="How many are coming?"
               />
-            </div>
-            <Button type="submit" disabled={loading} className="...">
-              {loading ? "Submitting..." : "Confirm Attendance"}
-            </Button>
-          </motion.form>
+              <button type="submit" disabled={loading}>
+                <Send size={16} aria-hidden="true" />
+                {loading ? "Sending your reply..." : "Confirm attendance"}
+              </button>
+            </form>
+          </>
         )}
-      </div>
+      </motion.div>
     </section>
   );
-};
-
-const Duas = () => (
-  <section className="py-24 bg-ivory text-center px-4 islamic-pattern">
-    <div className="max-w-3xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="p-12 rounded-[3rem] border-2 border-gold/20 relative"
-      >
-        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-ivory px-4">
-          <Heart className="text-gold w-12 h-12 fill-gold/10" />
-        </div>
-
-        <h2 className="font-arabic text-3xl md:text-5xl text-emerald-950 mb-8 leading-relaxed">
-          بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي
-          خَيْرٍ
-        </h2>
-
-        <p className="font-serif text-xl text-emerald-950/80 italic mb-4">
-          "Barakallahu laka, wa baraka 'alaika, wa jama'a bainakuma fii khair."
-        </p>
-
-        <p className="font-sans text-emerald-950/60 uppercase tracking-widest text-sm">
-          May GOD bless you and shower His blessings upon you and unite you both
-          in goodness.
-        </p>
-      </motion.div>
-    </div>
-  </section>
-);
-
-const Footer = () => (
-  <footer className="py-24 sm:py-16 bg-emerald-950 text-center px-4 border-t border-gold/20">
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
-      <h2 className="font-display text-gold text-2xl mb-6 tracking-widest">
-        F & F
-      </h2>
-      <p className="font-serif italic text-gold-light/70 text-lg mb-8 max-w-md mx-auto">
-        “We look forward to celebrating this blessed union with you”
-      </p>
-      <div className="flex justify-center gap-6 mb-8 text-gold/40">
-        <BlinkingIcons />
-      </div>
-      <p className="text-ivory/30 text-xs font-sans tracking-tighter">
-        © 2026 🌙 Dream Pages. All Rights Reserved. <br />
-        Contact us: dreampages@gmail.com
-      </p>
-    </motion.div>
-  </footer>
-);
-
-const BlinkingIcons = () => {
-  const icons = [
-    <Moon className="w-5 h-5" />,
-    <Star className="w-5 h-5" />,
-    <Moon className="w-5 h-5" />,
-  ];
-
-  return (
-    <div className="flex justify-center gap-6 mb-8 text-gold/40">
-      {icons.map((icon, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0.2 }}
-          animate={{ opacity: [0.2, 1, 0.2] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.5, // 👈 stagger each icon
-          }}
-        >
-          {icon}
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-// --- Main App ---
+}
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-ivory selection:bg-gold/30 selection:text-emerald-950 relative z-10">
-      <CanvasParticles />
-      <SwingingLanterns />
-      <Bismillah />
-      <Hero />
-      <Events />
-      <Venue />
-      <SectionDivider />
-      <Duas />
+    <main className="invite-page">
+      <InvitationHero />
+      <InvitationStory />
+      <EventDetails />
+      <Blessings />
       <RSVP />
-      <Footer />
+      <footer className="invite-footer">
+        <div className="footer-monogram" aria-hidden="true">
+          M <Heart size={13} fill="currentColor" /> S
+        </div>
+        <p>With love, Mohamed Fazil &amp; Seyed Faleeha Teezan</p>
+        <p className="footer-note">We can’t wait to celebrate with you.</p>
+        <div className="footer-stars" aria-hidden="true">
+          <Star size={12} fill="currentColor" />
+          <Star size={16} fill="currentColor" />
+          <Star size={12} fill="currentColor" />
+        </div>
+      </footer>
     </main>
   );
 }
