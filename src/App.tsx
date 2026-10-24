@@ -140,8 +140,8 @@ function EventDetails() {
             <Flower2 size={86} strokeWidth={0.8} />
           </div>
           <div className="event-date-block">
-            <span>OCTOBER</span>
-            <strong>25</strong>
+            <span>DECEMBER</span>
+            <strong>20</strong>
             <span>2026</span>
           </div>
           <div className="event-copy">
