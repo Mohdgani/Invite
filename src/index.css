@@ -463,7 +463,6 @@ body {
   width: min(100%, 780px);
   margin: auto;
   height: min(100%, 480px);
-  padding: 3rem 0 2rem;
   text-align: center;
 }
 
@@ -484,7 +483,7 @@ body {
   margin: 1.1rem 0 0.2rem;
   color: var(--paper-ink);
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.65rem, 4vw, 3.1rem);
+  font-size: clamp(1.65rem, 4vw, 1.5rem);
   font-weight: 600;
   letter-spacing: 0.055em;
   line-height: 1.18;
@@ -500,7 +499,8 @@ body {
   margin: 1.25rem 0 0;
   color: #5b3827;
   font-family: "Great Vibes", "Cormorant Garamond", cursive;
-  font-size: clamp(3.5rem, 9vw, 7.2rem);
+  /* font-size: clamp(3.5rem, 9vw, 7.2rem); */
+  font-size: clamp(3.3rem, 9vw, 1.25rem);
   line-height: 1.06;
 }
 
@@ -537,6 +537,7 @@ body {
   color: var(--paper-ink);
   font-family: "Cinzel", Georgia, serif;
   font-size: clamp(0.85rem, 2vw, 1.1rem);
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }

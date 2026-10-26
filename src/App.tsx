@@ -384,7 +384,7 @@ export default function App() {
       <RSVP />
       <footer className="invite-footer">
         <div className="footer-monogram" aria-hidden="true">
-          M <Heart size={13} fill="currentColor" /> S
+          F <Heart size={13} fill="currentColor" /> F
         </div>
         <p>With love, Mohamed Fazil &amp; Seyed Faleeha Teezan</p>
         <p className="footer-note">We can’t wait to celebrate with you.</p>
