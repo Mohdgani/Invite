@@ -15,7 +15,7 @@ import CanvasParticles from "./CanvasParticles";
 
 const event = {
   date: "Sunday, 20th December 2026",
-  time: "11:30 AM onwards",
+  time: "7:00 PM (IST) onwards",
   location: "Bride's Residence, Kilakarai, Ramanathapuram Dist, Tamil Nadu",
   mapUrl: "https://maps.app.goo.gl/jrX5juwYMeTmiQyL6?g_st=aw",
 };
