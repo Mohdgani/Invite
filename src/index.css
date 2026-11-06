@@ -1037,6 +1037,11 @@ body {
   html,
   body {
     scroll-behavior: auto;
+    touch-action: manipulation;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   *,

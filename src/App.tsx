@@ -11,12 +11,13 @@ import {
   Send,
   Star,
 } from "lucide-react";
+import CanvasParticles from "./CanvasParticles";
 
 const event = {
   date: "Sunday, 20th December 2026",
   time: "11:30 AM onwards",
   location: "Bride's Residence, Kilakarai, Ramanathapuram Dist, Tamil Nadu",
-  mapUrl: "https://maps.app.goo.gl/uMWTWFfjFGML4yw8A",
+  mapUrl: "https://maps.app.goo.gl/jrX5juwYMeTmiQyL6?g_st=aw",
 };
 
 const fadeUp = {
@@ -377,6 +378,7 @@ function RSVP() {
 export default function App() {
   return (
     <main className="invite-page">
+      <CanvasParticles />
       <InvitationHero />
       <InvitationStory />
       <EventDetails />
