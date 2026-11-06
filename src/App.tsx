@@ -242,8 +242,8 @@ function RSVP() {
       alert("Please enter your name.");
       return;
     }
-    if (!Number.isFinite(guests) || guests < 1) {
-      alert("Please enter a valid number of guests.");
+    if (!Number.isInteger(guests) || guests < 1 || guests > 10) {
+      alert("Please enter a whole number of guests between 1 and 10.");
       return;
     }
 
@@ -359,6 +359,7 @@ function RSVP() {
                 name="guests"
                 type="number"
                 min={1}
+                max={10}
                 step={1}
                 placeholder="How many are attending?"
                 required
